@@ -1,0 +1,21 @@
+{
+  "npmClient": "yarn",
+  "packages": [
+    "packages/*"
+  ],
+  "command": {
+    "bootstrap": {
+      "concurrency": 2,
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
+    },
+    "publish": {
+      "message": "publish %s",
+      "verifyAccess": false,
+      "exact": true
+    }
+  },
+  "useWorkspaces": true,
+  "version": "0.0.1"
+}
