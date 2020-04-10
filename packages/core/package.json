@@ -14,6 +14,8 @@
     "test": "run-s build lint ava",
     "build": "tsc"
   },
+  "author": "Argano Inc.",
+  "license": "MIT",
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
     "@types/sharp": "^0.24.0",
@@ -33,5 +35,6 @@
   "dependencies": {
     "sharp": "^0.25.2"
   },
-  "typings": "build/index.d.ts"
+  "typings": "build/index.d.ts",
+  "gitHead": "da7ad77c0487410b2a452c704a06bd926a7842ce"
 }

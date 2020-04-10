@@ -13,6 +13,8 @@
     "test": "run-s build lint",
     "build": "tsc"
   },
+  "author": "Argano Inc.",
+  "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
@@ -28,5 +30,6 @@
     "@google-cloud/storage": "^4.5.0",
     "@imageproc/core": "0.0.2"
   },
-  "typings": "build/index.d.ts"
+  "typings": "build/index.d.ts",
+  "gitHead": "da7ad77c0487410b2a452c704a06bd926a7842ce"
 }
