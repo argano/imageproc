@@ -5,8 +5,8 @@ export type Operation = { name: "resizeAspectFit"; params: core.ResizeAspectFitP
 
 export interface InitParams {
     sourceBucket?: string;
-    sourceKeyPrefix?: string;
-    destBucket: string;
+    ignorePatterm: RegExp;
+    destBucket?: string;
     destKeyPrefix?: string;
     opration: Operation;
 }
@@ -45,7 +45,7 @@ export function handleStorageObjectCreated(params: InitParams): Function {
         if (bucketName !== params.sourceBucket) {
             return false;
         }
-        if (params.sourceKeyPrefix && file.indexOf(params.sourceKeyPrefix) !== 0) {
+        if (params.ignorePatterm && params.ignorePatterm.test(file)) {
             return false;
         }
         return true;
@@ -57,7 +57,7 @@ export function handleStorageObjectCreated(params: InitParams): Function {
 
         const storage = new gcs.Storage();
         const sourceBucket = storage.bucket(params.sourceBucket || bucket);
-        const destBucket = storage.bucket(params.destBucket);
+        const destBucket = storage.bucket(params.destBucket || bucket);
         await assertBucket(sourceBucket);
         await assertBucket(destBucket);
 
