@@ -1,6 +1,6 @@
 {
   "name": "@imageproc/core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "@imageproc/core",
   "main": "build/index.js",
   "files": [
@@ -38,5 +38,6 @@
   "typings": "build/index.d.ts",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "fbbeb3d29ae13f32fbe4359fb436e55d60bb19ae"
 }
