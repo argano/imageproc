@@ -12,8 +12,6 @@
     },
     "publish": {
       "message": "publish %s",
-      "verifyAccess": false,
-      "exact": true
     }
   },
   "useWorkspaces": true,

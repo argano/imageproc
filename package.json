@@ -18,7 +18,7 @@
     "lerna": "^3.20.2",
     "npm-run-all": "^4.1.5"
   },
-  "private": false,
+  "private": true,
   "workspaces": [
     "packages/*"
   ],

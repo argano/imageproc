@@ -31,5 +31,7 @@
     "@imageproc/core": "0.0.3"
   },
   "typings": "build/index.d.ts",
-  "gitHead": "da7ad77c0487410b2a452c704a06bd926a7842ce"
+  "publishConfig": {
+    "access": "public"
+  }
 }
