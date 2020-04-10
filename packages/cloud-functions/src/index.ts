@@ -5,7 +5,7 @@ export type Operation = { name: "resizeAspectFit"; params: core.ResizeAspectFitP
 
 export interface InitParams {
     sourceBucket?: string;
-    ignorePatterm: RegExp;
+    ignorePattern: RegExp;
     destBucket?: string;
     destKeyPrefix?: string;
     opration: Operation;
@@ -45,7 +45,7 @@ export function handleStorageObjectCreated(params: InitParams): Function {
         if (bucketName !== params.sourceBucket) {
             return false;
         }
-        if (params.ignorePatterm && params.ignorePatterm.test(file)) {
+        if (params.ignorePattern && params.ignorePattern.test(file)) {
             return false;
         }
         return true;

@@ -22,11 +22,14 @@ npm install --save @imageproc/cloud-functions
 
 3. Handle stroage trigger
 
+
+Using event target bucket for both source and destination.
+
 ```index.js
 const imageproc = require("@imageproc/cloud-functions");
 exports.processImage = imageproc.handleStorageObjectCreated({
-    sourceBucket: "source-image",
-    destBucket: "dest-images",
+    ignorePattern: /^files\//,
+    destKeyPrefix: "files/",
     opration: {
         name: "resizeAspectFit",
         params: {
@@ -36,4 +39,21 @@ exports.processImage = imageproc.handleStorageObjectCreated({
         }
     }
 });
+```
+
+Using other buckets for source and destination.
+
+```index.js
+const imageproc = require("@imageproc/cloud-functions");
+exports.processImage = imageproc.handleStorageObjectCreated({
+    sourceBucket: "source-image",
+    destBucket: "dest-images",
+    ...
+});
+```
+
+4. Deploy
+
+```
+gcloud functions deploy processImage --runtime nodejs10 --trigger-resource YOUR_BUCKET --trigger-event google.storage.object.finalize --project YOUR_PROJECT
 ```
