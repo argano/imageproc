@@ -1,16 +1,18 @@
 # imageproc
 
-Image processing utilities
+Image processing utilities for Node.js
 
 ## Supported Operations
 
-### getImageInfo
+- getImageInfo
+- resizeAspectFit
+- resizeCrop
+- convertFormat
 
-### resizeAspectFit
+## Serverless support
 
-### resizeCrop
-
-### convertFormat
+- [@imageproc/cloud-functions](./packages/cloud-functions/)
+  - You can easily build GCP Cloud Functions for image processing.
 
 ## Development
 
