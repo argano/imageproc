@@ -8,9 +8,10 @@ export type Operation =
 
 export interface InitParams {
     sourceBucket?: string;
-    ignorePattern: RegExp;
+    ignoreNamePattern?: RegExp;
     destBucket?: string;
-    destKeyPrefix?: string;
+    destNamePrefix?: string;
+    destNameTransform?: (sourceName: string) => string;
     opration: Operation;
 }
 
@@ -48,7 +49,7 @@ export function handleStorageObjectCreated(params: InitParams): Function {
         if (bucketName !== params.sourceBucket) {
             return false;
         }
-        if (params.ignorePattern && params.ignorePattern.test(file)) {
+        if (params.ignoreNamePattern && params.ignoreNamePattern.test(file)) {
             return false;
         }
         return true;
@@ -61,6 +62,10 @@ export function handleStorageObjectCreated(params: InitParams): Function {
         const storage = new gcs.Storage();
         const sourceBucket = storage.bucket(params.sourceBucket || bucket);
         const destBucket = storage.bucket(params.destBucket || bucket);
+        if (sourceBucket === destBucket && !params.ignoreNamePattern) {
+            console.error("params.ignoreNamePattern is not set even though source and destination bucket is same.");
+            return;
+        }
         await assertBucket(sourceBucket);
         await assertBucket(destBucket);
 
@@ -88,6 +93,15 @@ export function handleStorageObjectCreated(params: InitParams): Function {
             }
         })();
         const imageInfo = await proc.getImageInfo(destBuf);
-        await saveFile(destBucket, (params.destKeyPrefix || "") + file, destBuf, imageInfo.mimeType);
+        const destKey = (() => {
+            if (params.destNameTransform) {
+                return params.destNameTransform(file);
+            }
+            if (params.destNamePrefix) {
+                return params.destNamePrefix + file;
+            }
+            return file;
+        })();
+        await saveFile(destBucket, destKey, destBuf, imageInfo.mimeType);
     };
 }
