@@ -4,7 +4,6 @@ Image processing utilities for Node.js
 
 ## Supported Operations
 
-- getImageInfo
 - resizeAspectFit
 - resizeCrop
 - convertFormat

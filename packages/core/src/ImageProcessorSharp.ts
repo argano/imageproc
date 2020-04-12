@@ -1,6 +1,6 @@
 import * as sharp from "sharp";
 import { extensionMimeTypeMap } from "./imageTypes";
-import { ImageProcessor, ResizeAspectFitParams, ResizeCropParams, ImageInfo } from "./ImageProcessor";
+import { ImageProcessor, ResizeAspectFitParams, ResizeCropParams, ImageInfo, ConvertFormatParams } from "./ImageProcessor";
 
 const supportedExtensions = ["jpeg", "png"];
 
@@ -73,9 +73,9 @@ export class ImageProcessorSharp implements ImageProcessor {
         return await sharpImage.toBuffer();
     }
 
-    async convertFormat(image: Buffer, format: string): Promise<Buffer> {
+    async convertFormat(image: Buffer, params: ConvertFormatParams): Promise<Buffer> {
         return await sharp(image)
-            .toFormat(format)
+            .toFormat(params.format)
             .toBuffer();
     }
 }

@@ -347,14 +347,14 @@ interface TestTarget {
         const expectedImagePath = path.resolve(sourceImagesDir, "penguin1250x1250.jpg");
         const generatedImagePath = generatedFilePath("penguin1250x1250.jpg");
         const originalImageBuffer = await fs.readFile(originalImagePath);
-        const generatedImageBuffer = await testTarget.instance.convertFormat(originalImageBuffer, "jpg");
+        const generatedImageBuffer = await testTarget.instance.convertFormat(originalImageBuffer, { format: "jpg" });
         await fs.writeFile(generatedImagePath, generatedImageBuffer);
         const result = await compare(expectedImagePath, generatedImagePath, testTarget.compareThreshold);
         t.is(result, 0);
     });
 
     test.serial(`${testTarget.label}#convertFormat should throw error when encountering unsupported file format`, async t => {
-        const err = await t.throwsAsync(testTarget.instance.convertFormat(Buffer.alloc(10), "jpg"));
+        const err = await t.throwsAsync(testTarget.instance.convertFormat(Buffer.alloc(10), { format: "jpg" }));
         t.not(err.message.indexOf(testTarget.errors.convertFormatInvalidImage), -1);
     });
 });

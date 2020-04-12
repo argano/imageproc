@@ -1,7 +1,10 @@
 import * as core from "@imageproc/core";
 import * as gcs from "@google-cloud/storage";
 
-export type Operation = { name: "resizeAspectFit"; params: core.ResizeAspectFitParams } | { name: "resizeCrop"; params: core.ResizeCropParams };
+export type Operation =
+    | { name: "resizeAspectFit"; params: core.ResizeAspectFitParams }
+    | { name: "resizeCrop"; params: core.ResizeCropParams }
+    | { name: "convertFormat"; params: core.ConvertFormatParams };
 
 export interface InitParams {
     sourceBucket?: string;
@@ -78,6 +81,8 @@ export function handleStorageObjectCreated(params: InitParams): Function {
                     return proc.resizeAspectFit(sourceBuf, params.opration.params);
                 case "resizeCrop":
                     return proc.resizeCrop(sourceBuf, params.opration.params);
+                case "convertFormat":
+                    return proc.convertFormat(sourceBuf, params.opration.params);
                 default:
                     throw new Error("Unknown operation: " + params.opration);
             }
