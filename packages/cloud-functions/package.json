@@ -1,6 +1,6 @@
 {
   "name": "@imageproc/cloud-functions",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "@imageproc/cloud-functions",
   "main": "build/index.js",
   "files": [
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^4.5.0",
-    "@imageproc/core": "^0.0.10"
+    "@imageproc/core": "^0.0.11"
   },
   "typings": "build/index.d.ts",
   "publishConfig": {

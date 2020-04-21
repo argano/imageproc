@@ -1,6 +1,6 @@
 {
   "name": "@imageproc/core",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "@imageproc/core",
   "main": "build/index.js",
   "files": [
