@@ -46,7 +46,7 @@ export function handleStorageObjectCreated(params: InitParams): Function {
         if (eventType !== "google.storage.object.finalize") {
             return false;
         }
-        if (bucketName !== params.sourceBucket) {
+        if (params.sourceBucket && bucketName !== params.sourceBucket) {
             return false;
         }
         if (params.ignoreNamePattern && params.ignoreNamePattern.test(file)) {
