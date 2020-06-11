@@ -9,6 +9,7 @@ export type Operation =
 export interface InitParams {
     sourceBucket?: string;
     ignoreNamePattern?: RegExp;
+    copyOnlyNamePattern?: RegExp;
     destBucket?: string;
     destNamePrefix?: string;
     destNameTransform?: (sourceName: string) => string;
@@ -75,12 +76,14 @@ export function handleStorageObjectCreated(params: InitParams): Function {
         }
         const [sourceFile] = await sourceBucket.file(file).get();
         const [sourceBuf] = await sourceFile.download();
-
         if (!sourceBuf) {
             return;
         }
         const proc = new core.ImageProcessorSharp();
         const destBuf = await (() => {
+            if (params.copyOnlyNamePattern && params.copyOnlyNamePattern.test(file)) {
+                return sourceBuf;
+            }
             switch (params.opration.name) {
                 case "resizeAspectFit":
                     return proc.resizeAspectFit(sourceBuf, params.opration.params);
