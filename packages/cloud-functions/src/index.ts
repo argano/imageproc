@@ -79,11 +79,21 @@ export function handleStorageObjectCreated(params: InitParams): Function {
         if (!sourceBuf) {
             return;
         }
+        const destKey = (() => {
+            if (params.destNameTransform) {
+                return params.destNameTransform(file);
+            }
+            if (params.destNamePrefix) {
+                return params.destNamePrefix + file;
+            }
+            return file;
+        })();
+        if (params.copyOnlyNamePattern && params.copyOnlyNamePattern.test(file)) {
+            await saveFile(destBucket, destKey, sourceBuf, sourceFile.metadata.contentType);
+            return;
+        }
         const proc = new core.ImageProcessorSharp();
         const destBuf = await (() => {
-            if (params.copyOnlyNamePattern && params.copyOnlyNamePattern.test(file)) {
-                return sourceBuf;
-            }
             switch (params.opration.name) {
                 case "resizeAspectFit":
                     return proc.resizeAspectFit(sourceBuf, params.opration.params);
@@ -96,15 +106,6 @@ export function handleStorageObjectCreated(params: InitParams): Function {
             }
         })();
         const imageInfo = await proc.getImageInfo(destBuf);
-        const destKey = (() => {
-            if (params.destNameTransform) {
-                return params.destNameTransform(file);
-            }
-            if (params.destNamePrefix) {
-                return params.destNamePrefix + file;
-            }
-            return file;
-        })();
         await saveFile(destBucket, destKey, destBuf, imageInfo.mimeType);
     };
 }
