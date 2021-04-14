@@ -353,6 +353,41 @@ interface TestTarget {
         t.is(result, 0);
     });
 
+    test.serial(`${testTarget.label}#resizeAspectFit should scale down webm image when aspect ratio is maintained in arguments and noScaleUp is false`, async t => {
+        const originalImagePath = path.resolve(sourceImagesDir, "penguin1250x1250.webp");
+        const expectedImagePath = path.resolve(sourceImagesDir, "penguin250x250.webp");
+        const generatedImagePath = generatedFilePath("penguin250x250.webp");
+        const testAspectFitParams = { maxWidth: 250, maxHeight: 250, noScaleUp: false };
+        const originalImageBuffer = await fs.readFile(originalImagePath);
+        const generatedImageBuffer = await testTarget.instance.resizeAspectFit(originalImageBuffer, testAspectFitParams);
+        await fs.writeFile(generatedImagePath, generatedImageBuffer);
+        const result = await compare(expectedImagePath, generatedImagePath, testTarget.compareThreshold);
+        t.is(result, 0);
+    });
+
+    test.serial(`${testTarget.label}#resizeCrop should crop webm image`, async t => {
+        const originalImagePath = path.resolve(sourceImagesDir, "penguin1250x1250.webp");
+        const expectedImagePath = path.resolve(sourceImagesDir, "penguin600x500+400+300.webp");
+        const generatedImagePath = generatedFilePath("penguin600x500+400+300.webp");
+        const testCropParams = { width: 600, height: 500, offsetX: 400, offsetY: 300 };
+        const originalImageBuffer = await fs.readFile(originalImagePath);
+        const generatedImageBuffer = await testTarget.instance.resizeCrop(originalImageBuffer, testCropParams);
+        await fs.writeFile(generatedImagePath, generatedImageBuffer);
+        const result = await compare(expectedImagePath, generatedImagePath, testTarget.compareThreshold);
+        t.is(result, 0);
+    });
+
+    test.serial(`${testTarget.label}#convertFormat should convert png to webp`, async t => {
+        const originalImagePath = path.resolve(sourceImagesDir, "penguin1250x1250.png");
+        const expectedImagePath = path.resolve(sourceImagesDir, "penguin1250x1250.webp");
+        const generatedImagePath = generatedFilePath("penguin1250x1250.webp");
+        const originalImageBuffer = await fs.readFile(originalImagePath);
+        const generatedImageBuffer = await testTarget.instance.convertFormat(originalImageBuffer, { format: "webp" });
+        await fs.writeFile(generatedImagePath, generatedImageBuffer);
+        const result = await compare(expectedImagePath, generatedImagePath, testTarget.compareThreshold);
+        t.is(result, 0);
+    });
+
     test.serial(`${testTarget.label}#convertFormat should throw error when encountering unsupported file format`, async t => {
         const err = await t.throwsAsync(testTarget.instance.convertFormat(Buffer.alloc(10), { format: "jpg" }));
         t.not(err.message.indexOf(testTarget.errors.convertFormatInvalidImage), -1);
