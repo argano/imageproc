@@ -2,7 +2,7 @@ import * as sharp from "sharp";
 import { extensionMimeTypeMap } from "./imageTypes";
 import { ImageProcessor, ResizeAspectFitParams, ResizeCropParams, ImageInfo, ConvertFormatParams } from "./ImageProcessor";
 
-const supportedExtensions = ["jpeg", "png"];
+const supportedExtensions = ["jpeg", "png", "webp"];
 
 export class ImageProcessorSharp implements ImageProcessor {
     static assertSupportedExtension(type: string): string {
