@@ -42,7 +42,7 @@ export class ImageProcessorSharp implements ImageProcessor {
         sharpImage = sharpImage.resize(params.maxWidth, params.maxHeight, { fit: "inside" });
 
         if (params.format) {
-            sharpImage = sharpImage.toFormat(params.format);
+            sharpImage = sharpImage.toFormat(params.format as keyof sharp.FormatEnum);
         }
         return await sharpImage.toBuffer();
     }
@@ -68,14 +68,14 @@ export class ImageProcessorSharp implements ImageProcessor {
         }
         sharpImage = sharpImage.resize(resizeScale, null).extract({ width: extractWidth, height: extractHeight, left: offsetX, top: offsetY });
         if (params.format) {
-            sharpImage = sharpImage.toFormat(params.format);
+            sharpImage = sharpImage.toFormat(params.format as keyof sharp.FormatEnum);
         }
         return await sharpImage.toBuffer();
     }
 
     async convertFormat(image: Buffer, params: ConvertFormatParams): Promise<Buffer> {
         return await sharp(image)
-            .toFormat(params.format)
+            .toFormat(params.format as keyof sharp.FormatEnum)
             .toBuffer();
     }
 }
